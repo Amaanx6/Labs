@@ -1,0 +1,41 @@
+Exp: 3  Write a Node JS program to perform read, write and other opera ons on a file. 
+//create readfile.js 
+//READ FILE 
+var h p =require('h p'); 
+var fs = require('fs'); 
+h p.createServer(func on (req, res) { 
+  fs.readFile('file1.txt', func on(err, data) { 
+    res.writeHead(200, {'Content-Type': 'text/html'}); 
+    res.write(data); 
+    return res.end(); 
+  }); 
+}).listen(3000); 
+ 
+//create in the same folder file1.txt 
+ 
+Hello this is FSD Lab 
+ 
+ 
+ 
+ 
+ 
+ 
+//create writefile.js 
+ 
+//APPEND FILE ASYNCHRONOUS CALL 
+var fs = require('fs'); 
+fs.appendFile('file1.txt', ' FULL STACK DEVELOPMENT', func on (err) { 
+  if (err) throw err; 
+  console.log('Saved!'); 
+}); 
+ 
+ 
+ 
+//create delfile.js 
+ 
+//DELETE FILED 
+var fs = require('fs'); 
+fs.unlink('file1.txt', func on (err) { 
+  if (err) throw err; 
+  console.log('File deleted!'); 
+});

@@ -1,0 +1,94 @@
+Exp: 2  Create a Node JS application for user login system.  
+ 
+//create app.js 
+ 
+const http = require("http"); 
+const fs = require("fs"); 
+const querystring = require("querystring"); 
+ 
+const PORT = 3000; 
+ 
+// Dummy credentials 
+const USER = { username: "admin", password: "1234" }; 
+ 
+// Helper function to serve HTML files 
+function serveFile(res, path, statusCode = 200) { 
+  fs.readFile(path, (err, data) => { 
+    if (err) { 
+      res.writeHead(500); 
+      res.end("Error loading file"); 
+    } else { 
+      res.writeHead(statusCode, { "Content-Type": "text/html" }); 
+      res.end(data); 
+    } 
+  }); 
+} 
+ 
+// Create server 
+const server = http.createServer((req, res) => { 
+  if (req.method === "GET" && req.url === "/") { 
+    serveFile(res, "login.html"); 
+  } 
+  else if (req.method === "POST" && req.url === "/login") { 
+    let body = ""; 
+ 
+    req.on("data", chunk => body += chunk); 
+    req.on("end", () => { 
+      const { username, password } = querystring.parse(body); 
+ 
+      if (username === USER.username && password === USER.password) { 
+        serveFile(res, "welcome.html"); 
+      } else { 
+        res.writeHead(401, { "Content-Type": "text/html" }); 
+        res.end("<h3>Invalid login. <a href='/'>Try again</a></h3>"); 
+      } 
+    }); 
+  } 
+ 
+  else { 
+    res.writeHead(404, { "Content-Type": "text/plain" }); 
+    res.end("404 Not Found"); 
+  } 
+}); 
+ 
+// Start server 
+server.listen(PORT, () => { 
+  console.log(`Server running at http://localhost:${PORT}`); 
+}); 
+ 
+ 
+//create login.html 
+ 
+<!DOCTYPE html> 
+<html> 
+<head> 
+  <title>Login Page</title> 
+</head> 
+<body> 
+  <h2>Login</h2> 
+  <form action="/login" method="POST"> 
+    <label>Username:</label> 
+    <input type="text" name="username" required><br><br> 
+    <label>Password:</label> 
+    <input type="password" name="password" required><br><br> 
+    <button type="submit">Login</button> 
+  </form> 
+</body> 
+</html> 
+ 
+ 
+ 
+
+//create welcome.html 
+ 
+<!DOCTYPE html> 
+<html> 
+<head> 
+  <title>Welcome</title> 
+</head> 
+<body> 
+  <h2>Welcome!</h2> 
+  <p>You have successfully logged in.</p> 
+</body> 
+</html> 
+ 

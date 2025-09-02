@@ -1,0 +1,112 @@
+Exp: 5 Create a food delivery website where users can order food from a particular 
+restaurant listed in the     website for handling http requests and responses using NodeJS 
+
+ 
+1. restaurants.json (Sample Menu) 
+ data/restaurants.json 
+[ 
+  { 
+    "id": 1, 
+    "name": "Pizza Palace", 
+    "menu": ["Margherita", "Pepperoni", "Veggie Supreme"] 
+  }, 
+  { 
+    "id": 2, 
+    "name": "Curry Corner", 
+    "menu": ["Butter Chicken", "Paneer Tikka", "Dal Fry"] 
+  } 
+] 
+ 
+2. index.html (Frontend) 
+ views/index.html 
+<!DOCTYPE html> 
+<html> 
+<head> 
+  <title>Food Delivery</title> 
+</head> 
+<body> 
+  <h1>Welcome to Our Food Delivery Service</h1> 
+  <div id="restaurantList"></div> 
+ 
+
+ 
+  <script> 
+    fetch('/restaurants') 
+      .then(res => res.json()) 
+      .then(data => { 
+        const div = document.getElementById("restaurantList"); 
+        data.forEach(rest => { 
+          let html = `<h3>${rest.name}</h3><form method="POST" action="/order">`; 
+          rest.menu.forEach(item => { 
+            html += `<input type="checkbox" name="items" value="${item}">${item}<br>`; 
+          }); 
+          html += `<input type="hidden" name="restaurant" value="${rest.name}"> 
+                   <button type="submit">Order</button></form><hr>`; 
+          div.innerHTML += html; 
+        }); 
+      }); 
+  </script> 
+</body> 
+</html> 
+ 
+3. server.js (Backend) 
+ server.js 
+const http = require('http'); 
+const fs = require('fs'); 
+const url = require('url'); 
+const querystring = require('querystring'); 
+const path = require('path'); 
+ 
+// Load restaurant data 
+const restaurants = JSON.parse(fs.readFileSync('./data/restaurants.json', 'utf8')); 
+ 
+// Create server 
+http.createServer((req, res) => { 
+  const parsedUrl = url.parse(req.url, true); 
+ 
+  // Route: Home page 
+  if (req.url === '/' && req.method === 'GET') { 
+    const html = fs.readFileSync('./views/index.html'); 
+    res.writeHead(200, { 'Content-Type': 'text/html' }); 
+    res.end(html); 
+  } 
+ 
+  // Route: Get restaurants (used by JS) 
+  else if (req.url === '/restaurants' && req.method === 'GET') { 
+    res.writeHead(200, { 'Content-Type': 'application/json' }); 
+    res.end(JSON.stringify(restaurants)); 
+  } 
+ 
+  // Route: Handle order submission 
+  else if (req.url === '/order' && req.method === 'POST') { 
+ 
+
+    let body = ''; 
+    req.on('data', chunk => body += chunk); 
+    req.on('end', () => { 
+      const parsed = querystring.parse(body); 
+      const selectedItems = Array.isArray(parsed.items) ? parsed.items : [parsed.items]; 
+      res.writeHead(200, { 'Content-Type': 'text/html' }); 
+      res.end(`<h1>Order Placed!</h1><p>You ordered from ${parsed.restaurant}:</p><ul>${ 
+        selectedItems.map(i => `<li>${i}</li>`).join('') 
+      }</ul><a href="/">Back to Home</a>`); 
+    }); 
+  } 
+ 
+  // Route: Not found 
+  else { 
+    res.writeHead(404, { 'Content-Type': 'text/plain' }); 
+    res.end('404 Not Found'); 
+  } 
+ 
+}).listen(3000, () => { 
+  console.log("Server running at http://localhost:3000/"); 
+}); 
+ 
+ How to Run 
+mkdir food-delivery 
+cd food-delivery 
+npm init -y 
+# Place the files as per structure 
+node server.js 
+Then open: http://localhost:3004 in your browser.
