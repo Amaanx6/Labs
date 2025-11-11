@@ -1,0 +1,161 @@
+3. Write a Program to Implement Tic-Tac-Toe game
+Description:
+Tic-Tac-Toe is a classic two-player game played on a 3×3 grid. One player plays as "X" and the other as "O". Players take turns placing their marks in empty squares, and the goal is to get three of their marks in a row — horizontally, vertically, or diagonally.
+In this experiment, we implement an AI-based Tic-Tac-Toe using the Minimax algorithm, which is a decision rule for minimizing the possible loss in a worst-case scenario. The AI tries to maximize its score while assuming that the human opponent will minimize it.
+Code:
+import math
+# Define board
+board = [' ' for _ in range(9)]
+
+# Display board
+def print_board():
+    for i in range(3):
+        print("|".join(board[i*3:(i+1)*3]))
+        if i < 2:
+            print("-----")
+
+# Check win
+def check_winner(b, player):
+    win_cond = [(0,1,2),(3,4,5),(6,7,8),
+                (0,3,6),(1,4,7),(2,5,8),
+                (0,4,8),(2,4,6)]
+    for x, y, z in win_cond:
+        if b[x] == b[y] == b[z] == player:
+            return True
+    return False
+
+# Check draw
+def is_draw():
+    return ' ' not in board
+
+# Minimax function
+def minimax(b, depth, is_max):
+    if check_winner(b, 'O'):
+        return 1
+    elif check_winner(b, 'X'):
+        return -1
+    elif is_draw():
+        return 0
+
+    if is_max:
+        best = -math.inf
+        for i in range(9):
+        if b[i] == ' ':
+                b[i] = 'O'
+                best = max(best, minimax(b, depth+1, False))
+                b[i] = ' '
+        return best
+    else:
+        best = math.inf
+        for i in range(9):
+            if b[i] == ' ':
+                b[i] = 'X'
+                best = min(best, minimax(b, depth+1, True))
+                b[i] = ' '
+        return best
+
+# Find best move for AI
+def best_move():
+    best_val = -math.inf
+    move = -1
+    for i in range(9):
+        if board[i] == ' ':
+            board[i] = 'O'
+            move_val = minimax(board, 0, False)
+            board[i] = ' '
+            if move_val > best_val:
+                best_val = move_val
+                move = i
+    return move
+
+# Game loop
+def play_game():
+    print("Welcome to Tic-Tac-Toe!")
+    print_board()
+    while True:
+        # Human move
+        move = int(input("Enter position (1-9): ")) - 1
+        if board[move] != ' ':
+            print("Invalid move. Try again.")
+            continue
+        board[move] = 'X'
+        print_board()
+        if check_winner(board, 'X'):
+            print("You win!")
+            break
+        if is_draw():
+            print("It's a draw!")
+            break
+
+        # AI move
+        print("AI is thinking...")
+        ai_move = best_move()
+        board[ai_move] = 'O'
+        print_board()
+        if check_winner(board, 'O'):
+            print("AI wins!")
+            break
+        if is_draw():
+            print("It's a draw!")
+            break
+
+# Run game
+play_game()
+
+OUTPUT
+Welcome to Tic-Tac-Toe!
+ | | 
+-----
+ | | 
+-----
+ | | 
+Enter position (1-9): 2
+ |X| 
+-----
+ | | 
+-----
+ | | 
+AI is thinking...
+O|X| 
+-----
+ | | 
+-----
+ | | 
+Enter position (1-9): 5
+O|X| 
+-----
+ |X| 
+-----
+ | | 
+AI is thinking...
+O|X| 
+-----
+ |X| 
+-----
+ |O| 
+Enter position (1-9): 3
+O|X|X
+-----
+ |X| 
+-----
+ |O| 
+AI is thinking...
+O|X|X
+-----
+ |X| 
+-----
+O|O| 
+Enter position (1-9): 9
+O|X|X
+-----
+ |X| 
+-----
+O|O|X
+AI is thinking...
+O|X|X
+-----
+O|X| 
+-----
+O|O|X
+AI wins!
+
