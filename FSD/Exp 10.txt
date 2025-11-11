@@ -1,0 +1,84 @@
+Exp: 10  Write a program to create a vo ng applica on using React JS. 
+App.js 
+ 
+ 
+//App.js 
+import React, { useState } from 'react'; 
+ 
+func on App() { 
+  const [candidates, setCandidates] = useState([ 
+    { name: 'Alice', votes: 0 }, 
+    { name: 'Bob', votes: 0 }, 
+    { name: 'Charlie', votes: 0 } 
+  ]); 
+ 
+  const vote = (index) => { 
+    const updated = [...candidates]; 
+    updated[index].votes += 1; 
+    setCandidates(updated); 
+  }; 
+ 
+  const resetVotes = () => { 
+    const reset = candidates.map(c => ({ ...c, votes: 0 })); 
+    setCandidates(reset);
+      }; 
+ 
+  return ( 
+    <div style={styles.container}> 
+      <h2> Vo ng Applica on</h2> 
+      {candidates.map((candidate, index) => ( 
+        <div key={index} style={styles.card}> 
+          <span style={styles.name}>{candidate.name}</span> 
+          <span style={styles.votes}>Votes: {candidate.votes}</span> 
+          <bu on style={styles.bu on} onClick={() => vote(index)}>Vote</bu on> 
+        </div> 
+      ))} 
+      <bu on style={styles.resetBu on} onClick={resetVotes}>Reset Votes</bu on> 
+    </div> 
+  ); 
+} 
+ 
+const styles = { 
+  container: { 
+    fontFamily: 'Arial', 
+    padding: 30, 
+    textAlign: 'center' 
+  }, 
+  card: { 
+    margin: 15, 
+    padding: 15, 
+    border: '1px solid #ccc', 
+    borderRadius: 10, 
+    display: 'inline-block', 
+    width: 250, 
+    backgroundColor: '#f9f9f9' 
+  }, 
+  name: { 
+    fontSize: 20, 
+    fontWeight: 'bold' 
+  }, 
+  votes: { 
+    display: 'block', 
+    margin: '10px 0', 
+    color: '#333' 
+  }, 
+  bu on: { 
+    backgroundColor: '#4CAF50', 
+    color: 'white', 
+    padding: '8px 16px', 
+    border: 'none', 
+    borderRadius: 5,
+      cursor: 'pointer' 
+  }, 
+  resetBu on: { 
+    marginTop: 30, 
+    backgroundColor: '#f44336', 
+    color: 'white', 
+    padding: '10px 20px', 
+    border: 'none', 
+    borderRadius: 5, 
+    cursor: 'pointer' 
+  } 
+}; 
+ 
+export default App;

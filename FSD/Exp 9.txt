@@ -1,0 +1,103 @@
+Exp: 9 Develop an angular JS form to apply CSS and Events. 
+Index.html 
+ 
+<!DOCTYPE html> 
+<html ng-app="formApp"> 
+<head> 
+  <meta charset="UTF-8"> 
+  < tle>AngularJS Form with CSS and Events</ tle> 
+  <script src="h ps://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script> 
+  <script src="app.js"></script> 
+ 
+  <style> 
+    body { 
+      font-family: Arial, sans-serif; 
+      padding: 20px; 
+    } 
+ 
+    .form-box { 
+      background-color: #f2f2f2; 
+      border-radius: 10px; 
+      padding: 20px; 
+      width: 300px; 
+    } 
+ 
+    input.ng-valid { 
+      border: 2px solid green; 
+    } 
+ 
+    input.ng-invalid { 
+      border: 2px solid red; 
+    } 
+ 
+    .highlight { 
+      background-color: yellow; 
+    } 
+ 
+    bu on { 
+      background-color: #4CAF50; 
+      color: white; 
+      padding: 10px 15px; 
+      border: none; 
+      border-radius: 5px; 
+    } 
+ 
+    h3 {
+         color: darkblue; 
+    } 
+  </style> 
+</head> 
+<body ng-controller="formCtrl"> 
+ 
+  <div class="form-box" ng-mouseover="highlight=true" ng-mouseleave="highlight=false" 
+       ng-class="{'highlight': highlight}"> 
+    <h3>Student Registra on</h3> 
+ 
+    <form name="studentForm" novalidate> 
+      Name:<br> 
+      <input type="text" ng-model="student.name" required><br><br> 
+ 
+      Email:<br> 
+      <input type="email" ng-model="student.email" required><br><br> 
+ 
+      Course:<br> 
+      <select ng-model="student.course"> 
+        <op on value="AngularJS">AngularJS</op on> 
+        <op on value="NodeJS">NodeJS</op on> 
+        <op on value="MongoDB">MongoDB</op on> 
+      </select><br><br> 
+ 
+      <bu on type="bu on" ng-click="submitForm()">Submit</bu on> 
+    </form> 
+ 
+    <div ng-show="submi ed"> 
+      <h4>Form Submi ed:</h4> 
+      Name: {{student.name}}<br> 
+      Email: {{student.email}}<br> 
+      Course: {{student.course}}<br> 
+    </div> 
+  </div> 
+ 
+</body> 
+</html>
+
+
+App.js 
+var app = angular.module('formApp', []); 
+ 
+app.controller('formCtrl', func on($scope) { 
+  $scope.student = { 
+    name: "", 
+    email: "", 
+    course: "AngularJS" 
+  };
+    $scope.submi ed = false; 
+ 
+  $scope.submitForm = func on() { 
+    if ($scope.student.name && $scope.student.email) { 
+      $scope.submi ed = true; 
+    } else { 
+      alert("Please fill all required fields correctly!"); 
+    } 
+  }; 
+});

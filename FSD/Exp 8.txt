@@ -1,0 +1,164 @@
+Exp: 8  Perform Count, Limit, Sort, and Skip operations on the given collections 
+using MongoDB. 
+
+test> use MYDB2 
+switched to db MYDB2 
+ 
+MYDB2> db.createCollection("employees"); 
+{ ok: 1 } 
+ 
+MYDB2> db.employees.insertMany([{'id':111, 'name':'aaaa', 
+'salary':10000},{'id':222, 'name':'bbbb', 'salary':30000},{'id':333, 'name':'cccc', 
+'salary':20000},{'id':444, 'name':'dddd', 'salary':10000}]) 
+{ 
+  acknowledged: true, 
+  insertedIds: { 
+    '0': ObjectId('6713c7d9b34f42f350c73bfc'), 
+    '1': ObjectId('6713c7d9b34f42f350c73bfd'),
+      '2': ObjectId('6713c7d9b34f42f350c73bfe'), 
+    '3': ObjectId('6713c7d9b34f42f350c73bff') 
+  } 
+} 
+ 
+MYDB2> db.employees.find().pretty() 
+[ 
+  { 
+    _id: ObjectId('6713c7d9b34f42f350c73bfc'), 
+    id: 111, 
+    name: 'aaaa', 
+    salary: 10000 
+  }, 
+  { 
+    _id: ObjectId('6713c7d9b34f42f350c73bfd'), 
+    id: 222, 
+    name: 'bbbb', 
+    salary: 30000 
+  }, 
+  { 
+    _id: ObjectId('6713c7d9b34f42f350c73bfe'), 
+    id: 333, 
+    name: 'cccc', 
+    salary: 20000 
+  }, 
+  { 
+    _id: ObjectId('6713c7d9b34f42f350c73bff'), 
+    id: 444, 
+    name: 'dddd', 
+    salary: 10000 
+  } 
+] 
+ 
+MYDB2> db.employees.find().count() 
+4 
+ 
+MYDB2> db.employees.find({salary:10000}).count() 
+2 
+ 
+ 
+MYDB2> db.employees.find().pretty().limit(1) 
+[ 
+  { 
+    _id: ObjectId('6713c7d9b34f42f350c73bfc'), 
+    id: 111, 
+    name: 'aaaa', 
+    salary: 10000 
+  } 
+]
+ 
+MYDB2> db.employees.find().pretty().limit(2) 
+[ 
+  { 
+    _id: ObjectId('6713c7d9b34f42f350c73bfc'), 
+    id: 111, 
+    name: 'aaaa', 
+    salary: 10000 
+  }, 
+  { 
+    _id: ObjectId('6713c7d9b34f42f350c73bfd'), 
+    id: 222, 
+    name: 'bbbb', 
+    salary: 30000 
+  } 
+] 
+ 
+MYDB2> db.employees.find().pretty().skip(2) 
+[ 
+  { 
+    _id: ObjectId('6713c7d9b34f42f350c73bfe'), 
+    id: 333, 
+    name: 'cccc', 
+    salary: 20000 
+  }, 
+  { 
+    _id: ObjectId('6713c7d9b34f42f350c73bff'), 
+    id: 444, 
+    name: 'dddd', 
+    salary: 10000 
+  } 
+] 
+ 
+MYDB2> db.employees.find().pretty().skip(3) 
+[ 
+  { 
+    _id: ObjectId('6713c7d9b34f42f350c73bff'), 
+    id: 444, 
+    name: 'dddd', 
+    salary: 10000 
+  } 
+] 
+ 
+ 
+MYDB2> db.employees.find().pretty().sort({id:1}) 
+[ 
+  { 
+    _id: ObjectId('6713c7d9b34f42f350c73bfc'), 
+    id: 111,
+      name: 'aaaa', 
+    salary: 10000 
+  }, 
+  { 
+    _id: ObjectId('6713c7d9b34f42f350c73bfd'), 
+    id: 222, 
+    name: 'bbbb', 
+    salary: 30000 
+  }, 
+  { 
+    _id: ObjectId('6713c7d9b34f42f350c73bfe'), 
+    id: 333, 
+    name: 'cccc', 
+    salary: 20000 
+  }, 
+  { 
+    _id: ObjectId('6713c7d9b34f42f350c73bff'), 
+    id: 444, 
+    name: 'dddd', 
+    salary: 10000 
+  } 
+] 
+ 
+MYDB2> db.employees.find().pretty().sort({id:-1}) 
+[ 
+  { 
+    _id: ObjectId('6713c7d9b34f42f350c73bff'), 
+    id: 444, 
+    name: 'dddd', 
+    salary: 10000 
+  }, 
+  { 
+    _id: ObjectId('6713c7d9b34f42f350c73bfe'), 
+    id: 333, 
+    name: 'cccc', 
+    salary: 20000 
+  }, 
+  { 
+    _id: ObjectId('6713c7d9b34f42f350c73bfd'), 
+    id: 222, 
+    name: 'bbbb', 
+    salary: 30000 
+  }, 
+  { 
+    _id: ObjectId('6713c7d9b34f42f350c73bfc'), 
+    id: 111, 
+    name: 'aaaa', 
+    salary: 10000 
+  } 

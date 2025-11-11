@@ -1,0 +1,62 @@
+Exp: 7  Implement CRUD operations on the given dataset using MongoDB. 
+
+//create  file basicmongodb.js 
+ 
+const { MongoClient } = require('mongodb'); 
+ 
+// Connection URL 
+const url = 'mongodb://localhost:27017'; 
+const client = new MongoClient(url); 
+ 
+// Database and Collection names 
+const dbName = 'foodDeliveryDB'; 
+const collectionName = 'restaurants'; 
+ 
+async function run() { 
+  try { 
+    // Connect to MongoDB 
+    await client.connect();
+      console.log(" Connected to MongoDB sucessfully"); 
+ 
+    const db = client.db(dbName); 
+    const collection = db.collection(collectionName); 
+ 
+    // 1. Insert sample documents 
+    const insertResult = await collection.insertMany([ 
+      { name: "Pizza Palace", location: "Downtown", rating: 4.5 }, 
+      { name: "Curry Corner", location: "Uptown", rating: 4.2 }, 
+      { name: "Burger Barn", location: "Midtown", rating: 4.0 }, 
+      { name: "Burger King", location: "Downtown", rating: 5.0 } 
+ 
+    ]); 
+    console.log(" Inserted documents =>", insertResult.insertedCount); 
+ 
+    // 2. Find all documents 
+    const findResult = await collection.find({}).toArray(); 
+    console.log("Found documents:"); 
+    console.log(findResult); 
+ 
+    // 3. Update a document 
+    const updateResult = await collection.updateOne( 
+      { name: "Burger Barn" }, 
+      { $set: { rating: 4.3 } } 
+    ); 
+    console.log("Updated documents =>", updateResult.modifiedCount); 
+ 
+    // 4. Delete a document 
+    const deleteResult = await collection.deleteOne({ name: "Curry Corner" }); 
+    console.log("Deleted documents =>", deleteResult.deletedCount); 
+ 
+    // 5. Count documents 
+    const count = await collection.countDocuments(); 
+    console.log("Total documents now:", count); 
+ 
+  } catch (err) { 
+    console.error("Error:", err); 
+  } finally { 
+    await client.close(); 
+    console.log("Connection closed"); 
+  } 
+} 
+ 
+run();
