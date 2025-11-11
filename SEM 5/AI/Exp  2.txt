@@ -1,0 +1,29 @@
+2. Write a Program to Implement Depth First Search
+Description:
+Depth First Search (DFS) is an algorithm for traversing or searching graph data structures. It starts at the root (or any selected node) and explores as far as possible along each branch before backtracking. DFS uses a stack (or recursive function call stack) to remember the path.
+Code:
+def dfs(graph, start, visited=None):
+    if visited is None:
+        visited = set()
+
+    if start not in visited:
+        print(start, end=" ")
+        visited.add(start)
+        for neighbor in graph[start]:
+            dfs(graph, neighbor, visited)
+
+# Example graph
+graph = {
+    'A': ['B', 'C'],
+    'B': ['D', 'E'],
+    'C': ['F'],
+    'D': [],
+    'E': ['F'],
+    'F': []
+}
+
+print("DFS traversal:")
+dfs(graph, 'A')
+ OUTPUT:
+DFS traversal:
+A B D E F C
