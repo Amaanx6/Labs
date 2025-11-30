@@ -1,0 +1,83 @@
+9. Write a Program to Implement Missionaries-Cannibals Problems.
+Description:
+The Missionaries and Cannibals problem is a classic example of a constraint satisfaction and state-space search problem in AI.
+Problem Statement:
+Three missionaries and three cannibals are on one side of a river, and they need to cross to the other side using a boat that can carry at most two people at a time. At no point should the number of cannibals be greater than the number of missionaries on either bank of the river (otherwise, the cannibals would eat the missionaries).
+Goal:
+Safely transfer all six individuals from the starting bank to the opposite bank without violating any rules.
+Code:
+from collections import deque
+
+# State: (M_left, C_left, Boat_side)
+# Boat_side: 1 means left, 0 means right
+
+def is_valid(m, c):
+    return (m == 0 or m >= c) and (3 - m == 0 or (3 - m) >= (3 - c))
+
+def get_successors(state):
+    m, c, boat = state
+    successors = []
+    moves = [(1, 0), (2, 0), (0, 1), (0, 2), (1, 1)]  # possible (m, c) moves
+    
+    for m_move, c_move in moves:
+        if boat == 1:  # boat on left
+            new_m, new_c = m - m_move, c - c_move
+            new_boat = 0
+        else:  # boat on right
+            new_m, new_c = m + m_move, c + c_move
+            new_boat = 1
+        
+        if 0 <= new_m <= 3 and 0 <= new_c <= 3:
+            if is_valid(new_m, new_c):
+                successors.append((new_m, new_c, new_boat))
+    
+    return successors
+
+def bfs(start, goal):
+    queue = deque()
+    queue.append((start, [start]))
+    visited = set()
+    visited.add(start)
+
+    while queue:
+        state, path = queue.popleft()
+        if state == goal:
+            return path
+        for succ in get_successors(state):
+            if succ not in visited:
+                visited.add(succ)
+                queue.append((succ, path + [succ]))
+    return None
+
+# Initial state: 3 missionaries, 3 cannibals, boat on left
+start = (3, 3, 1)
+# Goal state: 0 missionaries, 0 cannibals, boat on right
+goal = (0, 0, 0)
+
+# Solve and print the result
+solution = bfs(start, goal)
+
+if solution:
+    print("Steps to solve the Missionaries and Cannibals problem:")
+    for i, state in enumerate(solution):
+        m, c, b = state
+        side = "Left" if b == 1 else "Right"
+        print(f"Step {i}: Missionaries = {m}, Cannibals = {c}, Boat on {side} bank")
+else:
+    print("No solution found.")
+
+OUTPUT
+
+Steps to solve the Missionaries and Cannibals problem:
+Step 0: Missionaries = 3, Cannibals = 3, Boat on Left bank
+Step 1: Missionaries = 3, Cannibals = 1, Boat on Right bank
+Step 2: Missionaries = 3, Cannibals = 2, Boat on Left bank
+Step 3: Missionaries = 3, Cannibals = 0, Boat on Right bank
+Step 4: Missionaries = 3, Cannibals = 1, Boat on Left bank
+Step 5: Missionaries = 1, Cannibals = 1, Boat on Right bank
+Step 6: Missionaries = 2, Cannibals = 2, Boat on Left bank
+Step 7: Missionaries = 0, Cannibals = 2, Boat on Right bank
+Step 8: Missionaries = 0, Cannibals = 3, Boat on Left bank
+Step 9: Missionaries = 0, Cannibals = 1, Boat on Right bank
+Step 10: Missionaries = 1, Cannibals = 1, Boat on Left bank
+Step 11: Missionaries = 0, Cannibals = 0, Boat on Right bank
