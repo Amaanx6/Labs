@@ -1,0 +1,105 @@
+4. Write a Program to Implement 8-Puzzle problem
+Description:
+The 8-Puzzle problem consists of a 3×3 grid with 8 numbered tiles and one blank space. The goal is to rearrange the tiles from a given initial configuration into a goal state (usually ordered from 1 to 8 with the blank at the end), by sliding tiles into the blank space.
+This experiment involves solving the 8-puzzle using search algorithms such as:
+•	Breadth-First Search (BFS)
+•	A Search (for heuristic-based solutions)*
+Code: 
+from collections import deque
+
+# Goal state of 8-puzzle
+goal_state = [[1, 2, 3],
+                     [4, 5, 6],
+                     [7, 8, 0]]  # 0 represents the empty tile
+
+# Directions to move: (dx, dy)
+moves = {'up': (-1, 0),
+         'down': (1, 0),
+         'left': (0, -1),
+         'right': (0, 1)}
+
+# Function to find the position of the blank tile (0)
+def find_zero(state):
+    for i in range(3):
+        for j in range(3):
+            if state[i][j] == 0:
+                return (i, j)  # row, col
+
+# Function to check if a move is valid
+def is_valid(x, y):
+    return 0 <= x < 3 and 0 <= y < 3
+
+# Function to generate the new state by moving the blank tile
+def move_tile(state, direction):
+    x, y = find_zero(state)
+    dx, dy = moves[direction]
+    new_x, new_y = x + dx, y + dy
+
+    if is_valid(new_x, new_y):
+        # Create a deep copy of the state
+        new_state = [row[:] for row in state]
+        # Swap blank (0) with target tile
+        new_state[x][y], new_state[new_x][new_y] = new_state[new_x][new_y], new_state[x][y]
+        return new_state
+    return None
+
+# Function to check if two states are equal
+def is_goal(state):
+    return state == goal_state
+
+# BFS function to solve the puzzle
+def bfs(initial_state):
+    visited = set()
+    queue = deque()
+
+    # Store (state, path of moves)
+    queue.append((initial_state, []))
+    visited.add(str(initial_state))  # Convert list to string for hashing
+
+    while queue:
+        current_state, path = queue.popleft()
+
+        if is_goal(current_state):
+            return path  # Found the goal, return the moves
+
+        for direction in moves:
+            new_state = move_tile(current_state, direction)
+            if new_state and str(new_state) not in visited:
+                visited.add(str(new_state))
+                queue.append((new_state, path + [direction]))
+
+    return None  # No solution found
+
+# Function to print the board
+def print_board(state):
+    for row in state:
+        print(row)
+    print()
+
+# MAIN PROGRAM
+if __name__ == "__main__":
+    # Define initial state
+    initial_state = [[1, 2, 3],
+                     [4, 0, 6],
+                     [7, 5, 8]]
+
+    print("Initial State:")
+    print_boar9d(initial_state)
+
+    solution = bfs(initial_state)
+
+    if solution:
+        print("Solution found in", len(solution), "moves:")
+        print("Moves:", solution)
+    else:
+        print("No solution exists for the given initial state.")
+
+OUTPUT
+
+Initial State:
+[1, 2, 3]
+[4, 0, 6]
+[7, 5, 8]
+
+Solution found in 2 moves:
+Moves: ['down', 'right']
