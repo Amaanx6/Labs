@@ -1,0 +1,201 @@
+**1. What is Breadth First Search?**
+It explores a graph level by level, starting from the source node.
+
+**2. How does BFS differ from DFS?**
+BFS explores breadth-wise using a queue, DFS goes depth-wise using stack/recursion.
+
+**3. What data structure is used in BFS?**
+Queue.
+
+**4. What is the time and space complexity of BFS?**
+Time: O(V+E), Space: O(V).
+
+**5. Can BFS be used to find the shortest path in weighted graphs?**
+Only in unweighted or equally weighted graphs.
+
+**6. How does DFS work?**
+It explores deeper into a branch until no further nodes, then backtracks.
+
+**7. What are the differences between BFS and DFS?**
+BFS finds shortest path and uses queue; DFS uses stack and explores depth-first.
+
+**8. What data structure is used to implement DFS?**
+Stack or recursion.
+
+**9. How can DFS be implemented recursively?**
+Call the function for each unvisited adjacent node.
+
+**10. Is DFS guaranteed to find the shortest path?**
+No.
+
+**11. How do you check the winning condition in Tic-Tac-Toe?**
+Check rows, columns, and diagonals for three identical symbols.
+
+**12. How does the minimax algorithm work in the game?**
+It simulates all possible moves, assumes optimal player, returns best outcome.
+
+**13. What is the base case in the minimax function?**
+When the board is in win, lose, or draw state.
+
+**14. How is a draw determined in Tic-Tac-Toe?**
+No empty cells and no winner.
+
+**15. Can the game be solved completely?**
+Yes, it is a finite deterministic game.
+
+**16. What is the 8-puzzle problem?**
+It’s a sliding tile puzzle with 8 tiles and 1 blank to reach a final configuration.
+
+**17. What search strategies can be used to solve it?**
+BFS, DFS, A*, and IDA*.
+
+**18. How do you define the goal state?**
+The final desired arrangement of tiles.
+
+**19. What is a heuristic function?**
+It estimates cost to reach goal; examples: Manhattan, misplaced tiles.
+
+**20. What is the time complexity of A* in 8-puzzle?**
+Exponential in worst case.
+
+**21. What is the state representation for this problem?**
+3×3 matrix or a 9-digit string.
+
+**22. Which algorithm did you use: BFS or DFS?**
+(State your choice.)
+
+**23. Can this problem have multiple solutions?**
+Yes, different paths to same goal.
+
+**24. What are the possible operations in the jug problem?**
+Fill, empty, and transfer between jugs.
+
+**25. How do you handle repeated states?**
+Use visited set or state-checking.
+
+**26. What is the objective of TSP?**
+Find the shortest tour visiting all cities exactly once.
+
+**27. Which algorithm did you use to solve it?**
+(State your approach.)
+
+**28. What is the time complexity of the brute-force approach?**
+O(n!).
+
+**29. How does a greedy algorithm work in TSP?**
+Always pick the nearest unvisited city.
+
+**30. Can TSP be solved using dynamic programming?**
+Yes, using Held-Karp algorithm.
+
+**31. What is the recurrence relation of Tower of Hanoi?**
+T(n)=2T(n−1)+1.
+
+**32. How many moves are required for n disks?**
+2ⁿ−1.
+
+**33. What is the base condition in recursion?**
+n = 1.
+
+**34. Is the solution optimal?**
+Yes, it's the minimal moves.
+
+**35. Can this be solved iteratively?**
+Yes, by using stack or bit-math.
+
+**36. What is the Monkey Banana Problem?**
+Monkey uses box and actions to reach and grab banana.
+
+**37. How is the state space represented?**
+Positions of monkey, box, banana, and action states.
+
+**38. What are the possible actions of the monkey?**
+Move, push box, climb, grab banana.
+
+**39. Which search strategy did you use?**
+(State your choice).
+
+**40. Is it an example of goal-based or reactive agent?**
+Goal-based agent.
+
+**41. What is the constraint in the problem?**
+Monkey must use box to reach banana.
+
+**42. How do you define safe and unsafe states?**
+Safe = valid; unsafe = duplicate or impossible.
+
+**43. What is the goal state?**
+Monkey has the banana.
+
+**44. Which strategy did you use to avoid cycles?**
+Track visited states.
+
+**45. Why is this considered a classic AI problem?**
+It uses state space, search, and planning concepts.
+
+**46. What is the N-Queens problem?**
+Place N queens so none attack each other.
+
+**47. How is the board represented in the program?**
+2D matrix or 1D array.
+
+**48. What is the backtracking approach?**
+Try a position; if conflict, backtrack.
+
+**49. How do you check for safe queen placement?**
+Check same column, row, and diagonals.
+
+**50. How many solutions are there for 4-Queens?**
+Two.
+
+**51. What is entropy and information gain?**
+Entropy = impurity; Info gain = impurity reduction.
+
+**52. How does the tree decide a split?**
+By choosing max information gain.
+
+**53. What are overfitting and pruning?**
+Overfitting = too complex; Pruning = trimming irrelevant parts.
+
+**54. What is the depth of a decision tree?**
+Number of levels from root to leaf.
+
+**55. What is a perceptron?**
+Basic neuron model with weights, bias, and activation.
+
+**56. What is backpropagation?**
+Updates weights by propagating error backward.
+
+**57. What are activation functions?**
+Sigmoid, ReLU, tanh – add non-linearity.
+
+**58. What are epochs, batches, and learning rate?**
+Epochs = passes, batch = subset, LR = weight update speed.
+
+**59. Why is it called "naive"?**
+Because it assumes feature independence.
+
+**60. What is Bayes' theorem?**
+P(A|B) = (P(B|A)P(A))/P(B).
+
+**61. What is the assumption of Naive Bayes?**
+Features are conditionally independent.
+
+**62. Where is Gaussian Naive Bayes used?**
+For continuous, normally distributed data.
+
+**63. What is linear regression?**
+Predicts a numeric output using best-fit line.
+
+**64. What is the difference between simple and multiple regression?**
+Simple = one feature; Multiple = many features.
+
+**65. What is the cost function used?**
+Mean Squared Error.
+
+**66. How do you minimize the error in regression?**
+Using gradient descent.
+
+**67. What is R² score?**
+It shows how much variance is explained by the model.
+
