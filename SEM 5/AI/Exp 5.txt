@@ -1,0 +1,78 @@
+5. Write a Program to Implement Water-Jug problem
+Description:
+The Water Jug Problem is a classic AI problem that involves two jugs of known capacities and the goal is to measure out a specific amount of water using these jugs. For example:
+•	Jug A has a capacity of 4 liters
+•	Jug B has a capacity of 3 liters
+•	Goal: Measure exactly 2 liters of water in Jug A
+The allowed operations are:
+•	Fill either jug fully
+•	Empty either jug
+•	Pour water from one jug to another until one is either full or empty
+This experiment is solved using Breadth First Search (BFS) or Depth First Search (DFS) by representing states as pairs (A, B) where A and B are current water levels in the jugs.
+Code:
+from collections import deque
+
+# Function to check if a state is visited
+def is_visited(state, visited):
+    return state in visited
+
+# Function to perform BFS and find path to goal
+def water_jug_bfs(cap_a, cap_b, goal):
+    # Each element is (state, path_to_state)
+    queue = deque()
+    visited = set()
+
+        # If goal is reached
+        if a == goal:
+            path.append((a, b))
+            return path
+
+        next_states = []
+
+        # Fill Jug A
+        next_states.append((cap_a, b))
+        # Fill Jug B
+        next_states.append((a, cap_b))
+        # Empty Jug A
+        next_states.append((0, b))
+        # Empty Jug B
+        next_states.append((a, 0))
+        # Pour A -> B
+        pour = min(a, cap_b - b)
+        next_states.append((a - pour, b + pour))
+        # Pour B -> A
+        pour = min(b, cap_a - a)
+        next_states.append((a + pour, b - pour))
+
+        for state in next_states:
+            if state not in visited:
+                visited.add(state)
+                queue.append((state, path + [(a, b)]))
+
+    return None  # No solution found
+
+# Capacities and goal
+cap_a = 4
+cap_b = 3
+goal = 2
+
+# Run BFS
+solution_path = water_jug_bfs(cap_a, cap_b, goal)
+
+# Print result
+if solution_path:
+    print("Steps to get 2 liters in Jug A:")
+    for step in solution_path:
+        print(f"Jug A: {step[0]}L, Jug B: {step[1]}L")
+else:
+    print("No solution found.")
+
+OUTPUT
+Steps to get 2 liters in Jug A:
+Jug A: 0L, Jug B: 0L
+Jug A: 4L, Jug B: 0L
+Jug A: 1L, Jug B: 3L
+Jug A: 1L, Jug B: 0L
+Jug A: 0L, Jug B: 1L
+Jug A: 4L, Jug B: 1L
+Jug A: 2L, Jug B: 3L
