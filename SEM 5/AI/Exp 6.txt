@@ -1,0 +1,50 @@
+6. Write a Program to Implement Travelling Salesman Problem
+Description:
+The Travelling Salesman Problem (TSP) is a famous optimization problem in AI and computer science. The task is to find the shortest possible route that visits each city exactly once and returns to the starting city.
+In this experiment, we implement a solution using:
+•	Backtracking
+•	Brute Force
+•	Or simple heuristics (e.g., Nearest Neighbor)
+
+Code:
+from itertools import permutations
+# Function to calculate total distance of a tour
+def calculate_distance(tour, dist_matrix):
+    distance = 0
+    for i in range(len(tour) - 1):
+        distance += dist_matrix[tour[i]][tour[i + 1]]
+    distance += dist_matrix[tour[-1]][tour[0]]  # return to start
+    return distance
+
+# Main function to solve TSP
+def tsp_brute_force(dist_matrix):
+    n = len(dist_matrix)
+    cities = list(range(n))
+    min_tour = None
+    min_distance = float('inf')
+
+    for perm in permutations(cities[1:]):  # fix starting city to 0
+        tour = [0] + list(perm)
+        current_distance = calculate_distance(tour, dist_matrix)
+        if current_distance < min_distance:
+            min_distance = current_distance
+            min_tour = tour
+
+    return min_tour, min_distance
+
+# Example Distance Matrix (4 cities)
+dist_matrix = [
+    [0, 10, 15, 20],
+    [10, 0, 35, 25],
+    [15, 35, 0, 30],
+    [20, 25, 30, 0]
+]
+
+tour, cost = tsp_brute_force(dist_matrix)
+print("Optimal tour:", tour)
+print("Minimum cost:", cost)
+
+OUTPUT:
+Optimal tour: [0, 1, 3, 2]
+Minimum cost: 80
+
