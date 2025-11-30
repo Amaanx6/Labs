@@ -1,0 +1,68 @@
+10. Write a Program to Implement N-Queens Problem using Python.
+Description:
+The N-Queens problem is a classic problem in combinatorics and AI involving placing N queens on an N×N chessboard so that no two queens threaten each other.
+Rules:
+•No two queens can be in the same row, column, or diagonal.
+Goal:
+Find and print at least one valid arrangement of queens on the board for a given N (usually 8 in the classic version).
+
+Code:
+# Define the size of the chessboard (8x8 for 8-Queens)
+N = 8
+
+# Function to check if placing a queen at (row, col) is safe
+def is_safe(board, row, col):
+    # Check all previous rows
+    for i in range(row):
+        # Check if another queen is in the same column
+        if board[i] == col:
+            return False
+        # Check left-to-right diagonal 
+        if board[i] - i == col - row:
+            return False
+        # Check right-to-left diagonal 
+        if board[i] + i == col + row:
+            return False
+    return True  # No conflicts, safe to place queen
+
+# Recursive function to solve the N-Queens problem using backtracking
+def solve_n_queens(board, row):
+    # Base condition: If all rows are filled, print the solution
+    if row == N:
+        print_solution(board)
+        return True  # Return True to indicate solution found
+
+    # Try placing a queen in each column of the current row
+    for col in range(N):
+        # Check if it's safe to place a queen
+        if is_safe(board, row, col):
+            board[row] = col  # Place the queen
+            # Recursively try to place queen in the next row
+            if solve_n_queens(board, row + 1):
+                return True  # If successful, stop after first solution
+            # Backtrack: undo the queen placement (not required here as overwritten)
+    
+    return False  # No valid placement found in this row, trigger backtracking
+
+# Function to print the board with queens
+def print_solution(board):
+    print("One solution to 8-Queens problem:")
+    for i in range(N):
+        row = ['.'] * N  # Start with empty row
+        row[board[i]] = 'Q'  # Place queen at the correct column
+        print(' '.join(row))  # Print the row with queen and dots
+    print()  # Blank line after the board
+
+# Main driver code
+board = [-1] * N  # Initialize board with -1 meaning no queens placed
+solve_n_queens(board, 0)  # Start solving from row 0
+
+output
+Q . . . . . . .
+. . . . Q . . .
+. . . . . . . Q
+. . . . . Q . .
+. . Q . . . . .
+. . . . . . Q .
+. Q . . . . . .
+. . . Q . . . .
