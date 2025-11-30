@@ -1,0 +1,77 @@
+8. Write a Program to Implement Monkey Banana Problem
+Description
+A monkey is in a room. Bananas are hanging from the ceiling, out of the monkey’s reach. A box is also in the room. The monkey can:
+•	Walk around
+•	Push the box
+•	Climb on the box
+•	Grasp the bananas
+The goal is for the monkey to get the bananas.
+Code
+# Possible locations
+locations = ['door', 'window', 'middle']
+
+# Initial state of the monkey and box
+state = {
+    'monkey_loc': 'door',
+    'box_loc': 'window',
+    'monkey_on_box': False,
+    'has_banana': False
+}
+
+# Actions
+def move(location):
+    print(f"Monkey moves to {location}")
+    state['monkey_loc'] = location
+
+def push_box(location):
+    if state['monkey_loc'] == state['box_loc']:
+        print(f"Monkey pushes box to {location}")
+        state['box_loc'] = location
+        state['monkey_loc'] = location
+    else:
+        print("Monkey must be at the same location as the box to push it.")
+
+def climb_box():
+    if state['monkey_loc'] == state['box_loc']:
+        print("Monkey climbs on the box.")
+        state['monkey_on_box'] = True
+    else:
+        print("Monkey must be at the same location as the box to climb it.")
+
+def grasp_banana():
+    if state['monkey_loc'] == 'middle' and state['box_loc'] == 'middle' and state['monkey_on_box']:
+        print("Monkey grasps the banana!")
+        state['has_banana'] = True
+    else:
+        print("Monkey cannot reach the banana yet.")
+
+# Plan to get the banana
+def get_banana():
+    move('window')
+    push_box('middle')
+    climb_box()
+    grasp_banana()
+
+    if state['has_banana']:
+        print("\n Monkey successfully got the banana!")
+    else:
+        print("\n Monkey failed to get the banana.")
+
+# MAIN PROGRAM
+if __name__ == "__main__":
+    print(" Initial State:", state)
+    print("\nMonkey's Plan to Get the Banana:\n")
+    get_banana()
+    print("\n Final State:", state)
+
+OUTPUT:
+Initial State: {'monkey_loc': 'door', 'box_loc': 'window', 'monkey_on_box': False, 'has_banana': False}
+
+Monkey's Plan to Get the Banana:
+
+Monkey moves to window
+Monkey pushes box to middle
+Monkey climbs on the box.
+Monkey grasps the banana!
+Monkey successfully got the banana!
+ Final State: {'monkey_loc': 'middle', 'box_loc': 'middle', 'monkey_on_box': True, 'has_banana': True}
