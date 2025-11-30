@@ -1,0 +1,444 @@
+11. Write a program to train and validate the following classifiers for given data (scikit-learn):
+Objective:
+Train and evaluate at least two classifiers using a labeled dataset, such as the Iris or Breast Cancer dataset available in scikit-learn.
+Description:
+This experiment involves training and validating classification models using the scikit-learn 888library in Python. Classification is a supervised machine learning technique where the goal is to predict a categorical label.
+IRIS Dataset
+The Iris dataset is a classic and widely used collection of data in machine learning, especially for beginners learning about classification problems.
+Overview
+The dataset has 150 samples of iris flowers.
+Each sample comes from one of three species:
+ 
+For each flower, there are 4 measurements ("features"):
+
+•	Sepal length
+•	Sepal width
+•	Petal length
+•	Petal width
+
+All features are measured in centimeters.
+Feature	Description
+Sepal Length	Measurement of the flower's sepal (protective leaves) in cm
+Sepal Width	Width of the sepal in cm
+Petal Length	Length of the petal (colored part) in cm
+Petal Width	Width of the petal in cm
+Species	One of Setosa, Versicolor, Virginica
+
+
+Petal Length	Species
+1.2	Setosa
+4.5	Versicolor
+5.1	Virginica
+
+Why is the Iris Dataset So Popular?
+It's small and easy to handle: With only 150 rows and 4 feature columns, anyone can understand and process it quickly, even on a basic computer.
+The data is clean (no missing values), making it ideal for learning and practicing data science techniques.
+Used to teach the basics of classification: The main task is to predict which iris species a flower belongs to, based on the four features.
+It is included in most data science and machine learning libraries, such as scikit-learn for Python.
+What Does "Classification" Mean?
+In the context of the Iris dataset, classification means teaching a computer to look at the measurements of a flower and guess the species. You use samples with known answers to "train" the computer, and then test it by giving it examples where the answer is hidden.
+Historical Context
+The dataset was first introduced by biologist Ronald Fisher in 1936 for statistical analysis.
+It has become the “Hello World” of machine learning because it is the first dataset many people use 
+What is a Decision Tree?
+A decision tree is a simple and visual way for a computer (or a human!) to make decisions by asking a series of questions. It's widely used in machine learning for tasks like sorting things into categories (classification) or predicting numbers (regression).
+Key Parts of a Decision Tree
+Root node: The very first question, covering the whole dataset.
+Branches: The possible answers (like "yes" or "no") to a question at each step.
+Internal nodes: Places along the tree where new questions are asked, based on features of the data.
+Leaf nodes: The "end points" of the tree—this is where the tree gives you a final answer or prediction.
+How Does a Decision Tree Work?
+Think of it like a flowchart—a sequence of questions that split the data into smaller and smaller groups:
+Start with the whole dataset: This is the root node.
+Ask the best question: Split the data using the feature (like "petal length" or "income") that helps separate the data most clearly.
+Branch out: Depending on the answer, go down a new branch.
+Keep asking questions: For each new group (subset), keep splitting by asking good questions, one after another.
+Stop at a leaf: When all the things in a group are the same, or there's no better question, the tree gives its final answer at a "leaf node."
+Real-Life Example (Predicting Buying Habits)
+Suppose a company wants to predict if a customer will buy a product:
+Root Node: "Is income > $50,000?"
+No → "No Purchase"
+Yes → Next question: "Is age > 30?"
+No → "No Purchase"
+Yes → Next question: "Previous purchase?"
+Yes → "Purchase"
+No → "No Purchase"
+Following these questions step by step (from root to leaves), you reach a final prediction for any new customer.
+Why Use Decision Trees?
+•	Easy to understand: Like a flowchart, easy for anyone to follow.
+•	No need for lots of extra data prep: Can handle both numbers and categories.
+•	Clear reasoning: Shows why a prediction was made.
+(a) Decision Tree Classifier
+•	A tree-like structure used for classification problems.
+•	It splits the dataset into branches based on feature values until it reaches a decision (leaf node).
+•	Easy to visualize and interpret.
+Code:
+# Import necessary libraries
+from sklearn.datasets import load_iris
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, classification_report
+
+# Load dataset (Iris)
+iris = load_iris()
+X = iris.data  # Features
+y = iris.target  # Labels
+
+# Split dataset into training and testing sets (80% train, 20% test)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create a Decision Tree Classifier
+clf = DecisionTreeClassifier()
+
+# Train the classifier
+clf.fit(X_train, y_train)
+# Make predictions on test data
+y_pred = clf.predict(X_test)
+
+# Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+report = classification_report(y_test, y_pred, target_names=iris.target_names)
+
+# Output results
+print("Decision Tree Classifier Results\n")
+print("Predicted:", y_pred)
+print("Actual:   ", y_test)
+print(f"\nAccuracy: {accuracy:.2f}")
+print("\nClassification Report:\n", report)
+
+OUTPUT:
+How to Run
+Ensure you have scikit-learn installed:
+pip install scikit-learn
+Then run the script in your Python environment or Jupyter Notebook.
+Decision Tree Classifier Results
+
+Predicted: [1 0 2 1 1 0 1 2 1 1 2 0 0 0 0 1 2 1 1 2 0 2 0 2 2 2 2 2 0 0]
+Actual:    [1 0 2 1 1 0 1 2 1 1 2 0 0 0 0 1 2 1 1 2 0 2 0 2 2 2 2 2 0 0]
+
+Accuracy: 1.00
+
+Classification Report:
+               precision    recall  f1-score   support
+
+      setosa       1.00      1.00      1.00        10
+  versicolor       1.00      1.00      1.00         9
+   virginica       1.00      1.00      1.00        11
+
+    accuracy                           1.00        30
+   macro avg       1.00      1.00      1.00        30
+weighted avg       1.00      1.00      1.00        30
+
+What Do These Terms Mean?
+Precision: Out of all the times the model predicted this species, how many times was it correct? (Lower false alarms = higher precision)
+Recall: Out of all actual examples of this species, how many did the model correctly find? (Lower missed cases = higher recall)
+F1-score: A balance between precision and recall. It is the harmonic mean, so it’s high only if both are high.
+Support: The number of times this species appeared in your test data.
+Accuracy
+Shows the overall fraction of correct predictions out of all samples.
+Here, 1.00 (or 100%) means every test sample was correctly classified.
+macro avg
+Average of precision, recall, and F1-score treating all classes equally (not considering their counts)
+Here, it's also 1.00 for each metric (because your model was perfect for every class)
+weighted avg
+Average that weights each class by how many times it appeared (support).
+If some classes had more data, those would influence this average more.
+Again, 1.00 here because every class was classified perfectly.
+
+
+
+
+ (b) Multi-layer Feed Forward Neural Network (MLP Classifier)
+•	A type of Artificial Neural Network with an input layer, one or more hidden layers, and an output layer.
+•	Uses backpropagation for training.
+•	Suitable for handling non-linear decision boundaries.
+Code:
+# Import required libraries
+from sklearn.datasets import load_iris
+from sklearn.neural_network import MLPClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, classification_report
+
+# Load Iris dataset
+iris = load_iris()
+X = iris.data      # Features
+y = iris.target    # Labels
+
+# Split into training and testing sets (80% training, 20% testing)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create the MLPClassifier (Multi-Layer Feedforward Neural Network)
+# hidden_layer_sizes=(10,) → one hidden layer with 10 neurons
+mlp = MLPClassifier(hidden_layer_sizes=(10,), max_iter=1000, random_state=42)
+
+# Train the neural network
+mlp.fit(X_train, y_train)
+
+# Predict on the test set
+y_pred = mlp.predict(X_test)
+
+# Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+report = classification_report(y_test, y_pred, target_names=iris.target_names)
+# Output the results
+print("Multi-layer Neural Network Classifier Results\n")
+print("Predicted Labels:", y_pred)
+print("Actual Labels:   ", y_test)
+print(f"\nAccuracy: {accuracy:.2f}")
+print("\nClassification Report:\n", report)
+
+OUTPUT:
+Multi-layer Neural Network Classifier Results
+
+Predicted Labels: [1 0 2 1 1 0 1 2 2 1 2 0 0 0 0 1 2 1 1 2 0 2 0 2 2 2 2 2 0 0]
+Actual Labels:    [1 0 2 1 1 0 1 2 1 1 2 0 0 0 0 1 2 1 1 2 0 2 0 2 2 2 2 2 0 0]
+
+Accuracy: 0.97
+
+Classification Report:
+               precision    recall  f1-score   support
+
+      setosa       1.00      1.00      1.00        10
+  versicolor       1.00      0.89      0.94         9
+   virginica       0.92      1.00      0.96        11
+
+    accuracy                           0.97        30
+   macro avg       0.97      0.96      0.97        30
+weighted avg       0.97      0.97      0.97        30
+
+An Artificial Neural Network is a system of interconnected nodes (like brain cells) that process information and learn to perform tasks such as classification, prediction, and recognition by adjusting connection strengths (called weights).
+Structure of an ANN:
+1.	Input Layer – Takes input data (e.g., images, numbers, text).
+2.	Hidden Layers – Process data through weighted connections and activation functions.
+3.	Output Layer – Produces the final result (e.g., class label, predicted value).
+How It Works (Step by Step):
+1.	Each input is multiplied by a weight.
+2.	The weighted inputs are added together.
+3.	A bias is added to this sum.
+4.	The result passes through an activation function (decides output form).
+5.	The output moves to the next layer.
+6.	The network learns by adjusting weights using training (through algorithms like backpropagation).
+Example:
+Suppose we want an ANN to recognize if an image is of a cat or dog:
+•	Inputs: Pixel values of the image
+•	Hidden layers: Detect features like ears, eyes, fur
+•	Output: 1 (cat) or 0 (dog)
+The network improves its accuracy as it is trained with many examples.
+A Multi-Layer Feed Forward Neural Network (MLP Classifier) is one of the most commonly used types of Artificial Neural Networks (ANNs). It is designed to classify data by learning complex relationships between input and output using multiple layers of neurons.
+A Multi-Layer Perceptron (MLP) is a feed-forward neural network that has one input layer, one or more hidden layers, and one output layer.
+Data moves only forward — from input to output — without going back (no loops).
+It is often used for classification and prediction tasks.
+Structure of an MLP:
+1.	Input Layer – Receives data (e.g., features like height, weight, etc.)
+2.	Hidden Layers – Perform computations using weights, biases, and activation functions.
+3.	Output Layer – Produces the final classification (e.g., class A or class B).
+Each neuron in one layer is connected to every neuron in the next layer (fully connected).
+Working of an MLP Classifier:
+1.	Input Phase:
+o	Input data is given to the input layer.
+2.	Weighted Sum:
+o	Each neuron calculates a weighted sum of inputs:
+ 
+where w = weights, x = inputs, b = bias.
+Think of a bias as the “starting point” or “base level” of a neuron
+Activation Function:
+•	Applies a nonlinear function (like ReLU, Sigmoid, or Tanh) to decide the neuron’s output:
+•	ReLU is the most popular non-linear activation function used in deep learning today.
+What ReLU Does:
+•	It keeps only positive signals and cuts off negatives.
+•	So if a neuron’s input is negative (not helpful), it’s turned off.
+If it’s positive (important feature), it passes forward unchanged.
+•	This helps the network focus on important features and train faster.
+a=f(z)
+1.	Forward Propagation:
+o	The output from one layer becomes input to the next layer until the final output layer.
+2.	Output Layer:
+o	Gives class probabilities or labels (e.g., "spam" or "not spam").
+3.	Learning (Backpropagation):
+o	The network compares predicted output with actual output.
+o	Error is calculated using a loss function.
+o	The weights are adjusted using a method like Gradient Descent to reduce the error.
+Example:
+Suppose you want to classify whether an image contains a cat or dog.
+•	Input Layer: Takes pixel values of the image.
+•	Hidden Layers: Detect patterns (like fur, shape, eyes).
+•	Output Layer: Gives 1 (cat) or 0 (dog).
+As it trains on more images, the accuracy improves.
+Input Layer — Getting the Raw Data
+Each image is made of pixels.
+Suppose you have a 100 × 100 image (in grayscale for simplicity).
+That means:
+100×100=10,000 pixel inputs.100 × 100 = 10,000 \text{ pixel inputs.}100×100=10,000 pixel inputs. 
+Each pixel has a value between 0 and 255 (brightness).
+ The Input Layer has 10,000 neurons — one for each pixel.
+So, one image = a big list (vector) of 10,000 numbers:
+[x1,x2,x3,…,x10000][x₁, x₂, x₃, …, x₁₀₀₀₀][x1,x2,x3,…,x10000]
+
+ Weights and Biases — The Connections
+Each input neuron connects to neurons in the first Hidden Layer.
+•	Every connection has a weight (w) — it decides how important that pixel is.
+•	Each hidden neuron also has a bias (b) — a small adjustable constant that helps fine-tune the neuron’s activation.
+At the start, these weights and biases are random.
+Hidden Layer — Detecting Patterns
+Each neuron in the hidden layer performs this:
+ 
+Then passes this through an activation function (like ReLU):
+a=f(z)
+This decides if the neuron should “fire” or stay quiet.
+So, what happens inside the hidden layers?
+•	The first hidden layer learns simple features: edges, corners, colors, textures.
+•	The next layers combine those into bigger patterns: fur shapes, ears, eyes, noses.
+•	Deeper layers might represent entire objects: cat faces, dog snouts, etc.
+Each layer transforms the data from raw pixels → meaningful features.
+Output Layer — Making the Decision
+At the final layer, you might have two neurons:
+•	One for Cat
+•	One for Dog
+These neurons receive the processed information from the last hidden layer:
+ 
+Then the Softmax activation converts these raw scores into probabilities:
+ 
+If P(cat)=0.85P(cat) = 0.85P(cat)=0.85 and P(dog)=0.15P(dog) = 0.15P(dog)=0.15,
+The model predicts “Cat”.
+Comparing with the Correct Answer
+If the image was truly a cat, the label = 1 (cat) and 0 (dog).
+The model’s output is compared with the true label using a loss function (like Cross-Entropy Loss):
+how wrong the model’s prediction is compared to the actual (true) output.
+ 
+This measures how wrong the model is.
+Example
+Suppose the true output (label) = 1 (Cat)
+and the model predicts 0.8 (almost Cat).
+Then the loss measures:
+“How far is 0.8 from 1?”
+If the model predicted 0.2, the loss would be much larger — meaning the prediction is poor.
+Analogy:
+Think of the MLP as a student learning to identify animals:
+•	At first, guesses randomly (random weights).
+•	After each mistake, the teacher (loss function) corrects it.
+•	Over many examples, the student learns which features mean “cat” vs “dog.”
+Stage	What Happens Internally	Example
+Input	Image pixels enter	10,000 pixel values
+Weighted Sum	Each input multiplied by learned weight	Highlights important pixels
+Activation	Nonlinear function applied	Keeps only useful signals
+Hidden Layers	Combine low-level → high-level features	From edges → face shapes
+Output Layer	Produces probabilities	Cat: 0.85, Dog: 0.15
+Loss Function	Measures error	Tells how wrong prediction is
+Backpropagation	Updates weights	Learns from mistakes
+
+ Applications:
+•	Handwritten digit recognition (like MNIST dataset)
+•	Speech recognition
+•	Medical diagnosis
+•	Credit card fraud detection
+•	Sentiment analysis
+(c) Gaussian Naive Bayes Classifier
+•	Based on Bayes' Theorem, assuming features follow a Gaussian (Normal) distribution.
+•	Simple, fast, and works well with high-dimensional datasets.
+What Is Gaussian Naïve Bayes?
+Naïve Bayes is a probabilistic classifier based on Bayes’ Theorem, which predicts the class of a data point using probabilities.
+The term “Naïve” comes from the assumption that all input features are independent of each other.
+The “Gaussian” part means that the data for each feature is assumed to follow a Normal (bell-shaped) distribution.
+Bayes’ Theorem Refresher
+Bayes’ theorem tells us how to update our beliefs about a class after seeing evidence (features):
+ 
+ 
+The Gaussian Assumption
+For Gaussian Naïve Bayes, each feature (say, xix_ixi) is assumed to follow a Normal distribution for each class:
+ 
+ 
+Example: Cat vs Dog Classifier
+Let’s say you have two features:
+1.	Ear Length
+2.	Tail Length
+And two classes: Cat and Dog.
+Step 1: Training
+•	The model calculates the mean (μ) and variance (σ²) of each feature for each class.
+Example:
+Class: Cat → μ_ear = 3 cm, σ_ear² = 0.5
+Class: Dog → μ_ear = 7 cm, σ_ear² = 1.2
+•	It also stores prior probabilities P(Cat)P(Cat)P(Cat) and P(Dog)P(Dog)P(Dog) (like 0.5 each if balanced).
+Step 2: Prediction
+Suppose a new animal has:
+Ear Length = 5 cm
+Tail Length = 8 cm
+The model calculates:
+ 
+Then multiplies them (assuming independence):
+ 
+The model picks the class with the higher posterior probability.
+Step	What Happens	Example
+1️⃣	Compute priors	P(Cat)=0.5, P(Dog)=0.5
+2️⃣	Compute mean (μ) & variance (σ²) for each feature per class	Cat: μ=3, σ²=0.5
+3️⃣	For new data, compute likelihood using Gaussian formula	Plug values into Gaussian equation
+4️⃣	Multiply all probabilities for that class	Combine evidence
+5️⃣	Compare class posteriors	Choose class with highest probability
+Advantages
+•	Works well for small datasets
+•	Very fast (no complex optimization)
+•	Performs well even with simple assumptions
+Code:
+# Import required libraries
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score, classification_report
+
+# Load dataset
+iris = load_iris()
+X = iris.data      # Features
+y = iris.target    # Labels
+
+# Split dataset into training and testing sets (80% train, 20% test)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# --- Classifier 1: Gaussian Naive Bayes ---
+gnb = GaussianNB()
+gnb.fit(X_train, y_train)
+y_pred_gnb = gnb.predict(X_test)
+
+# --- Classifier 2: Decision Tree ---
+dtc = DecisionTreeClassifier(random_state=42)
+dtc.fit(X_train, y_train)
+y_pred_dtc = dtc.predict(X_test)
+
+# Evaluation for Gaussian Naive Bayes
+print(" Gaussian Naive Bayes Classifier Results:")
+print(f"Accuracy: {accuracy_score(y_test, y_pred_gnb):.2f}")
+print("Classification Report:\n", classification_report(y_test, y_pred_gnb, target_names=iris.target_names))
+
+# Evaluation for Decision Tree Classifier
+print("\n Decision Tree Classifier Results:")
+print(f"Accuracy: {accuracy_score(y_test, y_pred_dtc):.2f}")
+print("Classification Report:\n", classification_report(y_test, y_pred_dtc, target_names=iris.target_names))
+OUTPUT:
+Gaussian Naive Bayes Classifier Results:
+Accuracy: 1.00
+Classification Report:
+               precision    recall  f1-score   support
+
+      setosa       1.00      1.00      1.00        10
+  versicolor       1.00      1.00      1.00         9
+   virginica       1.00      1.00      1.00        11
+
+    accuracy                           1.00        30
+   macro avg       1.00      1.00      1.00        30
+weighted avg       1.00      1.00      1.00        30
+
+
+🔹 Decision Tree Classifier Results:
+Accuracy: 1.00
+Classification Report:
+               precision    recall  f1-score   support
+
+      setosa       1.00      1.00      1.00        10
+  versicolor       1.00      1.00      1.00         9
+   virginica       1.00      1.00      1.00        11
+
+    accuracy                           1.00        30
+   macro avg       1.00      1.00      1.00        30
+weighted avg       1.00      1.00      1.00        30
+
+
+
