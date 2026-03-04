@@ -1,0 +1,72 @@
+3. For a given set of training data examples stored in a .CSV file, demonstrate Data Preprocessing in Machine learning with the following steps
+
+1. Getting the dataset  
+2. Importing libraries  
+3. Importing datasets  
+4. Finding Missing Data  
+5. Encoding Categorical Data  
+6. Splitting dataset into training and test set  
+7. Feature scaling  
+
+To demonstrate data pre-processing for a given dataset in Machine Learning using Python. The dataset is stored in a .CSV file, and the pre-processing steps include loading the data, handling missing values, encoding categorical data, splitting the dataset into training and test sets, and applying feature scaling.
+
+
+
+# Step b) Importing Libraries
+import pandas as pd  # For handling the dataset  
+import numpy as np  # For numerical operations  
+from sklearn.model_selection import train_test_split  # For splitting data  
+from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder  # For encoding and scaling  
+
+
+# Step a) Getting the Dataset
+# Assuming you have a CSV file named 'data.csv'
+dataset = pd.read_csv('data.csv')
+
+
+# Step c) Importing Datasets
+print("First 5 rows of the dataset:")
+print(dataset.head())  # Display first 5 rows to get an overview
+
+
+# Step d) Finding Missing Data
+print("\nMissing data information:")
+print(dataset.isnull().sum())  # Display the count of missing values per column
+
+# Handling missing data (example: filling with mean for numeric columns)
+dataset.fillna(dataset.mean(), inplace=True)
+
+print("\nAfter handling missing data (filling with mean):")
+print(dataset.isnull().sum())
+
+
+# Step e) Encoding Categorical Data
+# Example: Encode a column named 'Category' (if exists)
+if 'Category' in dataset.columns:
+    labelencoder = LabelEncoder()
+    dataset['Category'] = labelencoder.fit_transform(dataset['Category'])
+
+print("\nAfter encoding categorical data in 'Category':")
+print(dataset.head())
+
+
+# Step f) Splitting dataset into training and test set
+# Assuming that the last column is the dependent variable (target)
+
+X = dataset.iloc[:, :-1].values  # Independent variables (features)
+y = dataset.iloc[:, -1].values   # Dependent variable (target)
+
+# Split the dataset: 80% training, 20% testing
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+print("Training set shape (X_train, y_train):", X_train.shape, y_train.shape)
+print("Test set shape (X_test, y_test):", X_test.shape, y_test.shape)
+
+
+# Step g) Feature Scaling
+scaler = StandardScaler()
+
+X_train = scaler.fit_transform(X_train)  # Fit and transform the training set
+X_test = scaler.transform(X_test)        # Transform the test set
