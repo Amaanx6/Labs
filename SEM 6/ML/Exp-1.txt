@@ -1,0 +1,106 @@
+2. Using python write a NumPy program to compute the
+
+1. Expected Value  
+2. Mean  
+3. Standard deviation  
+4. Variance  
+5. Covariance  
+6. Covariance Matrix of two given arrays.
+
+The aim of this program is to compute various statistical measures using Python's NumPy library. The program will calculate the expected value, mean, standard deviation, variance, covariance, and the covariance matrix of two given arrays.
+
+# a) Expected Value
+import numpy as np
+
+# Define an array
+array1 = np.array([1, 2, 3, 4, 5])
+
+# Expected Value (mean for a probability distribution)
+expected_value = np.mean(array1)
+
+print("Expected Value of array1:", expected_value)
+
+OUTPUT:
+Expected Value of array1: 3.0
+
+
+# b) Mean
+import numpy as np
+
+# Define an array
+array1 = np.array([1, 2, 3, 4, 5])
+
+# Mean of the array
+mean = np.mean(array1)
+
+print("Mean of array1:", mean)
+
+OUTPUT:
+Mean of array1: 3.0
+
+
+# c) Standard deviation
+import numpy as np
+
+# Define an array
+array1 = np.array([1, 2, 3, 4, 5])
+
+# Standard Deviation of the array
+std_dev = np.std(array1)
+
+print("Standard Deviation of array1:", std_dev)
+
+OUTPUT:
+Standard Deviation of array1: 1.4142135623730951
+
+
+# d) Variance
+import numpy as np
+
+# Define an array
+array1 = np.array([1, 2, 3, 4, 5])
+
+# Variance of the array
+variance = np.var(array1)
+
+print("Variance of array1:", variance)
+
+OUTPUT:
+Variance of array1: 2.0
+
+
+# e) Covariance
+import numpy as np
+
+# Define two arrays
+array1 = np.array([1, 2, 3, 4, 5])
+array2 = np.array([5, 4, 3, 2, 1])
+
+# Covariance between the two arrays
+covariance = np.cov(array1, array2)[0][1]
+
+# Extracting the covariance value
+print("Covariance between array1 and array2:", covariance)
+
+OUTPUT:
+Covariance between array1 and array2: -2.0
+
+
+# f) Covariance Matrix of two given arrays
+import numpy as np
+
+# Define two arrays
+array1 = np.array([1, 2, 3, 4, 5])
+array2 = np.array([5, 4, 3, 2, 1])
+
+# Covariance Matrix
+cov_matrix = np.cov(array1, array2)
+
+print("Covariance Matrix:")
+print(cov_matrix)
+
+OUTPUT:
+Covariance Matrix:
+[[ 2.5 -2.5]
+ [-2.5  2.5]]
+
