@@ -6,7 +6,6 @@ To write a program to control an LED using a Zigbee module.
 
 ---
 
-### **Hardware & Software Tools Required**
 
 ## **Hardware & Software Requirements**
 
@@ -62,7 +61,7 @@ void loop() {
 
 ### **RECEIVER SIDE:**
 
-```cpp
+
 #include <SoftwareSerial.h>
 
 SoftwareSerial mySerial(2, 3);
