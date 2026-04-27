@@ -34,7 +34,9 @@ int main() {
     return 0;
 }
 
+
 // DNS client code (dns_client.c)
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
